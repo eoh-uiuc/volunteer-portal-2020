@@ -70,4 +70,12 @@ router.post('/login', async (req, res) => {
   }
 })
 
+// Get current user
+router.get('/current', isAuthenticated, async (req, res) => {
+  res.json({
+    code: 200,
+    success: true,
+  })
+})
+
 module.exports = router;

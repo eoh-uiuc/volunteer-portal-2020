@@ -40,13 +40,16 @@ const societySelectorStyles = {
 
 const Field = props => {
     const name = props.name;
+    let stateName = name.split(' ').join('');
+    stateName = stateName.charAt(0).toLowerCase() + stateName.slice(1);
+
     const type = (name === "Password" ? "password" : "text");
     return (
         <div>
             <p>{name}</p>
-            {name === "Society" ?
-                <Select styles={societySelectorStyles} options={societies} /> : 
-                <input id="form-field" type={type} />
+            {name === "Society"
+                ? <Select styles={societySelectorStyles} options={societies} onChange={e => props.handleChange(e, stateName)} />
+                : <input id="form-field" type={type} onChange={e => props.handleChange(e, stateName)} />
             }
         </div>
     );
@@ -60,7 +63,7 @@ class Form extends Component {
                 <h1>{this.props.formHeader}</h1>
                 <div className="form">
                     <form>
-                        {this.props.fields.map(c => <Field name={c} />)}
+                        {this.props.fields.map(c => <Field name={c} handleChange={this.props.handleChange} key={c} />)}
                         <br />
                         <input id="form-button" type="submit" value={this.props.buttonValue} onClick={this.props.onButtonClick} />
                     </form>
